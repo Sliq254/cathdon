@@ -1,0 +1,8 @@
+{
+  "name": "Remix Cathdon Catering",
+  "description": "Cathdon Catering — Nairobi and countrywide corporate catering, weddings, authentic Swahili cuisine, and private chef dining in Kenya.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
