@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /.aistudio/
+
+# Replace the domain below with your live custom domain if hosted elsewhere.
+Sitemap: https://ais-pre-txz4fi2ddnafxumovelvmt-326771821394.europe-west2.run.app/sitemap.xml
