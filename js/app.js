@@ -750,11 +750,36 @@
     );
     onScrollFrame();
 
+    var sections = Array.prototype.slice.call(document.querySelectorAll('main > section'));
     if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+      sections.forEach(function (sec) {
+        sec.classList.add('is-visible');
+      });
       return;
     }
 
     document.documentElement.classList.add('has-scroll-anim');
+
+    var animatedSections = [];
+    sections.forEach(function (sec) {
+      if (sec.classList.contains('section')) {
+        animatedSections.push(sec);
+      } else {
+        sec.classList.add('is-visible');
+      }
+    });
+
+    var sectionObserver = new IntersectionObserver(
+      function (entries, obs) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting || entry.boundingClientRect.top < window.innerHeight - 20) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -40px 0px', threshold: 0.02 }
+    );
 
     var revealGroups = [
       { selector: '.section-header, .section-header-split > .section-subtitle', stagger: 35 },
@@ -795,6 +820,18 @@
     );
 
     function revealVisibleTargets() {
+      var sectionCutoff = window.innerHeight - 20;
+      animatedSections.forEach(function (sec) {
+        if (sec.classList.contains('is-visible')) return;
+        var rect = sec.getBoundingClientRect();
+        if (rect.top < sectionCutoff) {
+          sec.classList.add('is-visible');
+          sectionObserver.unobserve(sec);
+        } else {
+          sectionObserver.observe(sec);
+        }
+      });
+
       var cutoff = window.innerHeight + 160;
       targets.forEach(function (el) {
         if (el.classList.contains('is-visible')) return;
